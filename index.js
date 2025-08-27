@@ -1,10 +1,12 @@
 const express = require('express')
 const morgan = require('morgan')
 const cors = require('cors')
+const path = require('path')
+
 const app = express()
 
-
 app.use(express.json())
+
 morgan.token('body', (req) => {
   return JSON.stringify(req.body)
 })
@@ -35,9 +37,6 @@ let persons = [
     }
 ]
 
-app.get('/', (req, res) => {
-  res.send('<h1>Phonebook Backend is running! hola juan</h1>')
-})
 
 app.get('/api/persons', (request, response) => {
   response.json(persons)
@@ -97,6 +96,10 @@ app.post('/api/persons', (request, response) => {
   persons = persons.concat(person)
   response.json(person)
 
+})
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'dist', 'index.html'))
 })
 
 const PORT = process.env.PORT || 3001
