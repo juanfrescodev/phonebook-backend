@@ -65,7 +65,9 @@ const App = () => {
             }, 5000)
           })
           .catch(error => {
-            setMessage({text: `Information of ${newName} has already been removed from the server`, type: "red"})
+            console.log(error)
+            const errorMsg = error.response?.data?.error || 'Unknown error'
+            setMessage({ text: errorMsg, type:"red" })
             setTimeout(() => setMessage({text:null, type:null}), 5000)
           })
       }
@@ -82,16 +84,14 @@ const App = () => {
           setPersons(persons.concat(returnedPerson))
           setNewName('')
           setNewNumber('')
-          setMessage({
-              text:`Added ${newName} to the phonebook`, type:"green"
-        })
-            setTimeout(() => {
-              setMessage({text:null, type:null})
-            }, 5000)
+          setMessage({ text: `Added ${newName} to the phonebook`, type: 'green' })
+          setTimeout(() => setMessage({ text: null, type: null }), 5000)
         })
         .catch(error => {
-          setMessage({text: `Could not add ${newName}`, type:"red"})
-          setTimeout(() =>setMessage({text:null, type:null}), 5000)
+
+          const errorMsg = error?.response?.data?.error || 'Unknown error'
+          setMessage({ text: errorMsg, type: 'red' })
+          setTimeout(() => setMessage({ text: null, type: null }), 5000)
         })
         
     }
@@ -116,6 +116,7 @@ const App = () => {
             }, 5000)
         })
         .catch(error => {
+          console.log(error.response.data.error)
           setMessage({text:`information of ${person.name} has already been removed from the server`, type:"red"})
           setTimeout(() => setMessage({text:null, type:null}), 5000)
         })
