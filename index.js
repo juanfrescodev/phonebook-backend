@@ -17,14 +17,14 @@ morgan.token('body', (req) => {
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms :body'))
 
 app.get('/api/persons', (request, response) => {
-  Person.find({}).then(persons =>{
+  Person.find({}).then(persons => {
     response.json(persons)
   })
 })
 
 app.get('/info', (request, response) => {
     const now = new Date()
-    Person.countDocuments({}).then(count =>{
+    Person.countDocuments({}).then(count => {
       response.send(
   `<p>Phonebook has info for ${count} people</p>
   <p>${now}</p>`
@@ -45,7 +45,7 @@ app.get('/api/persons/:id', (request, response, next) => {
 
 app.delete('/api/persons/:id', (request, response, next) => {
   Person.findByIdAndDelete(request.params.id)
-  .then(result => {
+  .then(() => {
       response.status(204).end()
   })
   .catch(error => next(error))
@@ -76,11 +76,11 @@ app.post('/api/persons', (request, response, next) => {
 })
 
 app.put('/api/persons/:id', (request, response, next) => {
-  const {name, number} = request.body
+  const { name, number } = request.body
   const updatedData = { name, number }
   Person.findByIdAndUpdate(
     request.params.id, updatedData,
-    {new: true, runValidators: true, context: 'query'}
+    { new: true, runValidators: true, context: 'query' }
   )
     .then(updatedPerson => {
       response.json(updatedPerson)
@@ -102,11 +102,11 @@ const errorHandler = (error, request, response, next) => {
 
   if (error.name === 'CastError') {
     return response.status(400).send({ error: 'malformatted id' })
-  } 
-  
+  }
+
   if (error.name === 'ValidationError') {
     return response.status(400).json({ error: error.message })
-  } 
+  }
   next(error)
 }
 app.use(errorHandler)
