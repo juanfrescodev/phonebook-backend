@@ -15,6 +15,7 @@ El proyecto combina:
 - Backend desplegado y funcionando: [https://phonebook-backend-wnhz.onrender.com/](https://phonebook-backend-wnhz.onrender.com/)
 - Frontend integrado en el backend (`dist/`) y funcionando en producción.  
 - Localmente, el frontend también funciona con `npm run dev` (configuración de proxy incluida para conectarse al backend en localhost:3001).
+- Validacion de datos integrada.
 
 ---
 
